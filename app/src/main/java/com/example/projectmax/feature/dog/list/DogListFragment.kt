@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.projectmax.feature.dog.components.DogCard
+import com.example.projectmax.feature.dog.common.domain.Dog
+import com.example.projectmax.feature.dog.components.DogList
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalFoundationApi
@@ -27,24 +25,15 @@ class DogListFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val dogs = viewModel.dogs.value
-                LazyVerticalGrid(
-                    cells = GridCells.Fixed(2)
-                ) {
-                    itemsIndexed(
-                        items = dogs
-                    ) { index, dog ->
-                        DogCard(
-                            dog = dog,
-                            onClick = { navigateToDetail(dog.dogId) }
-                        )
-                    }
+                DogList(dogs = dogs) { dog ->
+                    navigateToDetail(dog)
                 }
             }
         }
     }
 
-    private fun navigateToDetail(dogId: Long) {
-        DogListFragmentDirections.actionDogListFragmentToDogDetailFragment(dogId = dogId).also {
+    private fun navigateToDetail(dog: Dog) {
+        DogListFragmentDirections.actionDogListFragmentToDogDetailFragment(dogId = dog.dogId).also {
             findNavController().navigate(it)
         }
     }

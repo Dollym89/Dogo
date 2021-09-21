@@ -2,6 +2,7 @@ package com.example.projectmax.feature.dog.list
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.projectmax.feature.dog.common.domain.Dog
@@ -12,8 +13,8 @@ class DogListViewModel(
     private val repository: DogRepository
 ) : ViewModel() {
 
-
-    val dogs: MutableState<List<Dog>> = mutableStateOf(listOf())
+    private val _state: MutableState<List<Dog>> = mutableStateOf(listOf())
+    val dogs: State<List<Dog>> = _state
 
     init {
         getDogs()
@@ -21,7 +22,7 @@ class DogListViewModel(
 
     private fun getDogs() {
         viewModelScope.launch {
-            dogs.value = repository.getDogs()
+            _state.value = repository.getDogs()
         }
     }
 }

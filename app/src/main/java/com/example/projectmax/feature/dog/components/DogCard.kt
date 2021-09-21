@@ -20,14 +20,13 @@ import com.example.projectmax.feature.dog.common.domain.Dog
 @Composable
 fun DogCard(
     dog: Dog,
-    onClick: () -> Unit
+    modifier: Modifier = Modifier
 ) {
     Card(
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .fillMaxWidth(),
         elevation = 8.dp
     ) {
         Column {
